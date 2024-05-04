@@ -17,6 +17,8 @@ namespace GalbenosFuncs
         [Function("GiveMeToken")]
         public IActionResult Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequest req)
         {
+            List<string> items = new();
+
             Dictionary<string, string> parametros = new Dictionary<string, string>();
             foreach (var queryParam in req.Query)
             {
@@ -26,9 +28,10 @@ namespace GalbenosFuncs
             foreach (var parametro in parametros)
             {
                 _logger.LogInformation($"{parametro.Key}: {parametro.Value}");
+                items.Add($"{parametro.Key}: {parametro.Value}");
             }
 
-            return new OkResult();
+            return new OkObjectResult(items);
         }
     }
 }
